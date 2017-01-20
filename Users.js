@@ -21,6 +21,11 @@ import Layer from '@folio/stripes-components/lib/Layer'; // eslint-disable-line
 import UserForm from './UserForm';
 import ViewUser from './ViewUser';
 
+import { createStore } from 'redux';
+
+
+
+
 class Users extends Component {
   static contextTypes = {
     router: PropTypes.object.isRequired,
@@ -88,15 +93,16 @@ class Users extends Component {
   onChangeSearch(e) {
     const query = e.target.value;
     console.log(`User searched for '${query}' at '${this.props.location.pathname}'`);
-
-    this.setState({ searchTerm: query });
-    this.updateSearchSort(query, this.state.sortOrder);
+    this.setState({ searchTerm: query }, () => {
+      this.updateSearchSort();
+    });
   }
 
   onClearSearch() {
     console.log('User cleared search');
-    this.setState({ searchTerm: '' });
-    this.context.router.transitionTo(this.props.location.pathname);
+    this.setState({ searchTerm: '' }, () => {
+      this.updateSearchSort();
+    });
   }
 
   onSortHandler(heading) {
@@ -107,13 +113,15 @@ class Users extends Component {
     };
     const sortOrder = sortMap[heading];
     console.log('User sorted by', sortOrder);
-    this.setState({ sortOrder });
-    this.updateSearchSort(this.state.searchTerm, sortOrder);
+    this.setState({ sortOrder }, () => {
+      this.updateSearchSort();
+    });
   }
 
   onClickItemHandler(userId) {
     console.log('User clicked', userId, 'location = ', this.props.location);
-    this.context.router.transitionTo(`/users/view/${userId}${this.props.location.search}`);
+    //this.context.router.transitionTo(`/users/view/${userId}${this.props.location.search}`);
+    this.props.mutator.GET();
   }
 
   // end search Handlers
@@ -133,7 +141,11 @@ class Users extends Component {
   }
   // end AddUser Handlers
 
-  updateSearchSort(query, sortOrder) {
+  updateSearchSort() {
+
+    const query = this.state.searchTerm;
+    const sortOrder = this.state.sortOrder;
+
     console.log(`updateSearchSort('${query}', '${sortOrder}')`);
     let transitionLoc = this.props.location.pathname;
     // if (sortOrder && !query) query = "cql.allRecords=1";
