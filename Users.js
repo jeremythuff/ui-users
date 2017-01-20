@@ -153,7 +153,8 @@ class Users extends Component {
       transitionLoc += query ? '&' : '?';
       transitionLoc += `sort=${sortOrder}`;
     }
-    this.props.mutator.users.GET();
+    //this.context.router.transitionTo(transitionLoc);
+    this.props.mutator.users.GET(this);
   }
 
   create(data) {
