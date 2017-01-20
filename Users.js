@@ -120,8 +120,7 @@ class Users extends Component {
 
   onClickItemHandler(userId) {
     console.log('User clicked', userId, 'location = ', this.props.location);
-    //this.context.router.transitionTo(`/users/view/${userId}${this.props.location.search}`);
-    this.props.mutator.GET();
+    this.context.router.transitionTo(`/users/view/${userId}${this.props.location.search}`);
   }
 
   // end search Handlers
@@ -154,7 +153,7 @@ class Users extends Component {
       transitionLoc += query ? '&' : '?';
       transitionLoc += `sort=${sortOrder}`;
     }
-    this.context.router.transitionTo(transitionLoc);
+    this.props.mutator.users.GET();
   }
 
   create(data) {
