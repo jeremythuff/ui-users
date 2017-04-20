@@ -5,6 +5,8 @@ import Textfield from '@folio/stripes-components/lib/TextField';
 import TextArea from '@folio/stripes-components/lib/TextArea';
 import Button from '@folio/stripes-components/lib/Button';
 
+import StripesForm from '@folio/stripes-form/lib/StripesForm';
+
 import {Field, reducer as formReducer, reduxForm} from 'redux-form';
  
 import PermissionSet from './PermissionSet';
@@ -20,7 +22,6 @@ class PermissionSetDetails extends Component {
 
   constructor(props) {
     super(props);
-    
     this.validateSet = this.validateSet.bind(this);
     this.saveSet = this.saveSet.bind(this);
     this.beginDelete = this.beginDelete.bind(this);
@@ -108,7 +109,7 @@ class PermissionSetDetails extends Component {
   }
 }
 
-export default reduxForm({
+export default StripesForm({
   form: 'permissionSetForm',
   enableReinitialize: true
 })(connect(PermissionSetDetails, '@folio/users'));
