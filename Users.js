@@ -32,6 +32,8 @@ const filterConfig = [
   },
 ];
 
+console.log("New stuff");
+
 class Users extends React.Component {
   static propTypes = {
     resources: PropTypes.shape({
